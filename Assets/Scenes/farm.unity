@@ -1215,7 +1215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 163.05344
+      value: 163.06
       objectReference: {fileID: 0}
     - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1223,7 +1223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 132.34146
+      value: 132.35
       objectReference: {fileID: 0}
     - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1257,38 +1257,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.662924
-      objectReference: {fileID: 0}
-    - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.41078
-      objectReference: {fileID: 0}
-    - target: {fileID: 416096, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.41078
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
---- !u!1 &534263707 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 104598, guid: 2394d7d557201f048b00c84246231eb0, type: 3}
-  m_PrefabInstance: {fileID: 534263706}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &534263708
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534263707}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 3.007681}
-  m_Center: {x: 6.985904e-18, y: 0, z: 0.12684873}
 --- !u!1001 &698637007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3589,7 +3559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3416708629191501220, guid: 922b54e9aaa76b441bd96f9a18285835, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3416708629191501220, guid: 922b54e9aaa76b441bd96f9a18285835, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
