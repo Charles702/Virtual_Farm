@@ -1617,6 +1617,21 @@ MonoBehaviour:
   CanMove: 0
   speed: 18
   controller: {fileID: 664124669}
+--- !u!114 &664124675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664124668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff04e1c49264b1e4bb7cfbe5432685c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resWidth: 1920
+  resHeight: 1080
+  SnapCam: {fileID: 963194227}
 --- !u!1001 &698637007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4398,6 +4413,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3667639136141787686, guid: 1c17f4b16fcb6e942ab59b30248d5f03, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6052216646040621091, guid: 1c17f4b16fcb6e942ab59b30248d5f03, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6052216646040621095, guid: 1c17f4b16fcb6e942ab59b30248d5f03, type: 3}
