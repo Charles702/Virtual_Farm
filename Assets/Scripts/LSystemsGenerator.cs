@@ -53,11 +53,7 @@ public class LSystemsGenerator : MonoBehaviour {
 
         transformStack = new Stack<TransformInfo>();
 
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[F-[[X]+X]+F[+FX]-X]" },
-            { 'F', "FF" }
-        };
+        SelectTreeOne();
 
         Generate();
     }
