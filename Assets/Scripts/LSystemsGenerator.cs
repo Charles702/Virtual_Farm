@@ -87,7 +87,7 @@ public class LSystemsGenerator : MonoBehaviour {
             switch (currentString[i]) {
                 case 'F':
                     initialPosition = transform.position;
-                    transform.Translate(Vector3.up * 2 * length);
+                    transform.Translate(Vector3.up * length);
                     // Add leaf or branch
                     GameObject fLine = currentString[(i + 1) % currentString.Length] == 'X' || 
                                        currentString[(i + 3) % currentString.Length] == 'F' && 
@@ -112,19 +112,19 @@ public class LSystemsGenerator : MonoBehaviour {
                     transform.Rotate(Vector3.forward * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
                 
-                case '*': // Rotate up along Y axis
+                case '*': // Move up along Y axis
                     transform.Rotate(Vector3.up * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
                  
-                case '/': // Rotate down along Y axis
+                case '/': // Move down along Y axis
                     transform.Rotate(Vector3.down * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
                 
-                case '&': // Pitch upwards along X axis
+                case '&': // Rotate right along X axis
                     transform.Rotate(Vector3.right * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
                 
-                case '^': // Pitch downwards along X axis
+                case '^': // Rotate left along X axis
                     transform.Rotate(Vector3.left * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
                 
