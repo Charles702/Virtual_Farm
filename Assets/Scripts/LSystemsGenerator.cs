@@ -55,7 +55,7 @@ public class LSystemsGenerator : MonoBehaviour {
 
         rules = new Dictionary<char, string>
         {
-            { 'X', "[&F-[X+X]+F[+FX]-X]****[&F-[X+X]+F[+FX]-X]****[&F-[X+X]+F[+FX]-X]" },
+            { 'X', "[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]" },
             { 'F', "FF" }
         };
 
@@ -89,7 +89,10 @@ public class LSystemsGenerator : MonoBehaviour {
                     initialPosition = transform.position;
                     transform.Translate(Vector3.up * 2 * length);
                     // Add leaf or branch
-                    GameObject fLine = currentString[(i + 1) % currentString.Length] == 'X' || currentString[(i + 3) % currentString.Length] == 'F' && currentString[(i + 4) % currentString.Length] == 'X' ? Instantiate(leaf) : Instantiate(branch);
+                    GameObject fLine = currentString[(i + 1) % currentString.Length] == 'X' || 
+                                       currentString[(i + 3) % currentString.Length] == 'F' && 
+                                       currentString[(i + 4) % currentString.Length] == 'X' ? 
+                                       Instantiate(leaf) : Instantiate(branch);
                     // Initialize leaf or branch
                     fLine.transform.SetParent(Tree.transform);
                     fLine.GetComponent<LineRenderer>().SetPosition(0, initialPosition);
