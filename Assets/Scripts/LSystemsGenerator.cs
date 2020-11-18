@@ -17,7 +17,7 @@ public class LSystemsGenerator : MonoBehaviour {
     public int title = 1;
     public int iterations = 4;
     public float angle = 30f;
-    public float width = 1f;
+    public float width = 0.01f;
     public float length = 2f;
     public float variance = 10f;
     public bool hasTreeChanged = false;
@@ -53,7 +53,11 @@ public class LSystemsGenerator : MonoBehaviour {
 
         transformStack = new Stack<TransformInfo>();
 
-        SelectTreeOne();
+        rules = new Dictionary<char, string>
+        {
+            { 'X', "[&F-[X+X]+F[+FX]-X]****[&F-[X+X]+F[+FX]-X]****[&F-[X+X]+F[+FX]-X]" },
+            { 'F', "FF" }
+        };
 
         Generate();
     }
@@ -110,6 +114,14 @@ public class LSystemsGenerator : MonoBehaviour {
 
                 case '/':
                     transform.Rotate(Vector3.down * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    break;
+                // Pitch upwards
+                case '&':
+                    transform.Rotate(Vector3.right * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    break;
+                // Pitch downwards
+                case '^':
+                    transform.Rotate(Vector3.left * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
 
                 case '[':
