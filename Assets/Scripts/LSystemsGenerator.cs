@@ -20,12 +20,15 @@ public class LSystemsGenerator : MonoBehaviour {
     public float width = 0.01f;
     public float length = 2f;
     public float variance = 10f;
+    public int rule_number = 0;
     public bool hasTreeChanged = false;
     public GameObject Tree = null;
 
     [SerializeField] private GameObject treeParent;
     [SerializeField] private GameObject branch;
     [SerializeField] private GameObject leaf;
+    private Dictionary<char, string>[] rulesBook = new Dictionary<char, string>[50];
+
 
     private const string axiom = "X";
 
@@ -47,17 +50,59 @@ public class LSystemsGenerator : MonoBehaviour {
         widthLastFrame = width;
         lengthLastFrame = length;
 
+        rulesBook[0] = new Dictionary<char, string>
+        {
+            { 'X', "[F-[X+X]+F[+FX]-X]" },
+            { 'F', "FF" }
+        };
+        rulesBook[1] = new Dictionary<char, string>
+        {
+            { 'X', "[-FX][+FX][FX]" },
+            { 'F', "FF" }
+        };
+        rulesBook[2] = new Dictionary<char, string>
+        {
+            { 'X', "[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]" },
+            { 'F', "FF" }
+        };
+        rulesBook[3] = new Dictionary<char, string>
+        {
+            { 'X', "[-FX]X[+FX][+F-FX]" },
+            { 'F', "FF" }
+        };
+        rulesBook[4] = new Dictionary<char, string>
+        {
+            { 'X', "[FF[+XF-F+FX]--F+F-FX]" },
+            { 'F', "FF" }
+        };
+        rulesBook[5] = new Dictionary<char, string>
+        {
+            { 'X', "[FX[+F[-FX]FX][-F-FXFX]]" },
+            { 'F', "FF" }
+        };
+        rulesBook[6] = new Dictionary<char, string>
+        {
+            { 'X', "[F[+FX][*+FX][/+FX]]" },
+            { 'F', "FF" }
+        };
+        rulesBook[7] = new Dictionary<char, string>
+        {
+            { 'X', "[*+FX]X[+FX][/+F-FX]" },
+            { 'F', "FF" }
+        };
+        rulesBook[8] = new Dictionary<char, string>
+        {
+            { 'X', "[F[-X+F[+FX]][*-X+F[+FX]][/-X+F[+FX]-X]]" },
+            { 'F', "FF" }
+        };
+
         for (int i = 0; i < randomRotationValues.Length; i++) {
             randomRotationValues[i] = UnityEngine.Random.Range(-1f, 1f);
         }
 
         transformStack = new Stack<TransformInfo>();
 
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]" },
-            { 'F', "FF" }
-        };
+        rules = rulesBook[rule_number];
 
         Generate();
     }
@@ -65,6 +110,8 @@ public class LSystemsGenerator : MonoBehaviour {
 
     private void Generate() {
         Destroy(Tree);
+
+        length *= 0.5f;
 
         Tree = Instantiate(treeParent);
 
@@ -146,86 +193,6 @@ public class LSystemsGenerator : MonoBehaviour {
             }
         }
 
-    }
-
-    private void SelectTreeOne() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[F-[X+X]+F[+FX]-X]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeTwo() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[-FX][+FX][FX]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeThree() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[-FX]X[+FX][+F-FX]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeFour() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[FF[+XF-F+FX]--F+F-FX]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeFive() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[FX[+F[-FX]FX][-F-FXFX]]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeSix() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[F[+FX][*+FX][/+FX]]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeSeven() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[*+FX]X[+FX][/+F-FX]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
-    }
-
-    private void SelectTreeEight() {
-        rules = new Dictionary<char, string>
-        {
-            { 'X', "[F[-X+F[+FX]][*-X+F[+FX]][/-X+F[+FX]-X]]" },
-            { 'F', "FF" }
-        };
-
-        Generate();
     }
 
     private void ResetRandomValues() {
