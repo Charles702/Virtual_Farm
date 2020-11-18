@@ -88,50 +88,51 @@ public class LSystemsGenerator : MonoBehaviour {
                 case 'F':
                     initialPosition = transform.position;
                     transform.Translate(Vector3.up * 2 * length);
-
+                    // Add leaf or branch
                     GameObject fLine = currentString[(i + 1) % currentString.Length] == 'X' || currentString[(i + 3) % currentString.Length] == 'F' && currentString[(i + 4) % currentString.Length] == 'X' ? Instantiate(leaf) : Instantiate(branch);
+                    // Initialize leaf or branch
                     fLine.transform.SetParent(Tree.transform);
                     fLine.GetComponent<LineRenderer>().SetPosition(0, initialPosition);
                     fLine.GetComponent<LineRenderer>().SetPosition(1, transform.position);
                     fLine.GetComponent<LineRenderer>().startWidth = width;
                     fLine.GetComponent<LineRenderer>().endWidth = width;
                     break;
-
-                case 'X':
+                
+                case 'X': // Do nothing for X, X is for string iterate update
                     break;
-
-                case '+':
+                
+                case '+': // Rotate back along Z axis
                     transform.Rotate(Vector3.back * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
-
-                case '-':
+                
+                case '-': // Rotate forward along Z axis
                     transform.Rotate(Vector3.forward * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
-
-                case '*':
+                
+                case '*': // Rotate up along Y axis
                     transform.Rotate(Vector3.up * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
-
-                case '/':
+                 
+                case '/': // Rotate down along Y axis
                     transform.Rotate(Vector3.down * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
-                // Pitch upwards
-                case '&':
+                
+                case '&': // Pitch upwards along X axis
                     transform.Rotate(Vector3.right * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
-                // Pitch downwards
-                case '^':
+                
+                case '^': // Pitch downwards along X axis
                     transform.Rotate(Vector3.left * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
                     break;
-
-                case '[':
+                
+                case '[': // Push tree state
                     transformStack.Push(new TransformInfo() {
                         position = transform.position,
                         rotation = transform.rotation
                     });
                     break;
-
-                case ']':
+                
+                case ']': // Pop tree state
                     TransformInfo ti = transformStack.Pop();
                     transform.position = ti.position;
                     transform.rotation = ti.rotation;
