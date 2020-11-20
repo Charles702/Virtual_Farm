@@ -111,8 +111,6 @@ public class LSystemsGenerator : MonoBehaviour {
     private void Generate() {
         Destroy(Tree);
 
-        length *= 0.5f;
-
         Tree = Instantiate(treeParent);
 
         currentString = axiom;
