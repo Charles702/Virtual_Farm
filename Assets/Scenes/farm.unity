@@ -4249,6 +4249,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3089747515558591698, guid: 099635272c7a746c38df9b6c30f5198f, type: 3}
+      propertyPath: Sun
+      value: 
+      objectReference: {fileID: 705507993}
+    - target: {fileID: 3089747515558591698, guid: 099635272c7a746c38df9b6c30f5198f, type: 3}
       propertyPath: Tree
       value: 
       objectReference: {fileID: 986696407}

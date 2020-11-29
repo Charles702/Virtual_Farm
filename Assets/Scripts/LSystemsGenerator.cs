@@ -21,8 +21,10 @@ public class LSystemsGenerator : MonoBehaviour {
     public float length = 2f;
     public float variance = 10f;
     public int rule_number = 0;
+    public float growing_cd = 0.5f;
     public bool hasTreeChanged = false;
-    public GameObject Tree = null;
+    public GameObject Tree;
+    public GameObject Sun;
 
     [SerializeField] private GameObject treeParent;
     [SerializeField] private GameObject branch;
@@ -42,8 +44,9 @@ public class LSystemsGenerator : MonoBehaviour {
     private string currentString = string.Empty;
     private Vector3 initialPosition = Vector3.zero;
     private float[] randomRotationValues = new float[100];
+    private int growing_index = 0;
 
-    private void Start() {
+    void Start() {
         titleLastFrame = title;
         iterationsLastFrame = iterations;
         angleLastFrame = angle;
@@ -107,11 +110,20 @@ public class LSystemsGenerator : MonoBehaviour {
         Generate();
     }
 
+    void Update()
+    {
+        if (growing_cd >= 0)
+        {
+            growing_cd -= Time.deltaTime;
+        }
+        Grow();
+    }
+
 
     private void Generate() {
-        Destroy(Tree);
+        //Destroy(Tree);
 
-        Tree = Instantiate(treeParent);
+        //Tree = Instantiate(treeParent);
 
         currentString = axiom;
 
@@ -127,16 +139,22 @@ public class LSystemsGenerator : MonoBehaviour {
         }
 
         Debug.Log(currentString);
+    }
 
-        for (int i = 0; i < currentString.Length; i++) {
-            switch (currentString[i]) {
+    private void Grow()
+    {
+        if (growing_index < currentString.Length && growing_cd < 0 && Sun.transform.position.y >= 0f)
+        {
+            print("growing");
+            switch (currentString[growing_index])
+            {
                 case 'F':
                     initialPosition = transform.position;
                     transform.Translate(Vector3.up * length);
                     // Add leaf or branch
-                    GameObject fLine = currentString[(i + 1) % currentString.Length] == 'X' || 
-                                       currentString[(i + 3) % currentString.Length] == 'F' && 
-                                       currentString[(i + 4) % currentString.Length] == 'X' ? 
+                    GameObject fLine = currentString[(growing_index + 1) % currentString.Length] == 'X' ||
+                                       currentString[(growing_index + 3) % currentString.Length] == 'F' &&
+                                       currentString[(growing_index + 4) % currentString.Length] == 'X' ?
                                        Instantiate(leaf) : Instantiate(branch);
                     // Initialize leaf or branch
                     fLine.transform.SetParent(Tree.transform);
@@ -145,41 +163,42 @@ public class LSystemsGenerator : MonoBehaviour {
                     fLine.GetComponent<LineRenderer>().startWidth = width;
                     fLine.GetComponent<LineRenderer>().endWidth = width;
                     break;
-                
+
                 case 'X': // Do nothing for X, X is for string iterate update
                     break;
-                
+
                 case '+': // Rotate back along Z axis
-                    transform.Rotate(Vector3.back * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    transform.Rotate(Vector3.back * angle * (1 + variance / 100 * randomRotationValues[growing_index % randomRotationValues.Length]));
                     break;
-                
+
                 case '-': // Rotate forward along Z axis
-                    transform.Rotate(Vector3.forward * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    transform.Rotate(Vector3.forward * angle * (1 + variance / 100 * randomRotationValues[growing_index % randomRotationValues.Length]));
                     break;
-                
+
                 case '*': // Move up along Y axis
-                    transform.Rotate(Vector3.up * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    transform.Rotate(Vector3.up * 120 * (1 + variance / 100 * randomRotationValues[growing_index % randomRotationValues.Length]));
                     break;
-                 
+
                 case '/': // Move down along Y axis
-                    transform.Rotate(Vector3.down * 120 * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    transform.Rotate(Vector3.down * 120 * (1 + variance / 100 * randomRotationValues[growing_index % randomRotationValues.Length]));
                     break;
-                
+
                 case '&': // Rotate right along X axis
-                    transform.Rotate(Vector3.right * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    transform.Rotate(Vector3.right * angle * (1 + variance / 100 * randomRotationValues[growing_index % randomRotationValues.Length]));
                     break;
-                
+
                 case '^': // Rotate left along X axis
-                    transform.Rotate(Vector3.left * angle * (1 + variance / 100 * randomRotationValues[i % randomRotationValues.Length]));
+                    transform.Rotate(Vector3.left * angle * (1 + variance / 100 * randomRotationValues[growing_index % randomRotationValues.Length]));
                     break;
-                
+
                 case '[': // Push tree state
-                    transformStack.Push(new TransformInfo() {
+                    transformStack.Push(new TransformInfo()
+                    {
                         position = transform.position,
                         rotation = transform.rotation
                     });
                     break;
-                
+
                 case ']': // Pop tree state
                     TransformInfo ti = transformStack.Pop();
                     transform.position = ti.position;
@@ -189,8 +208,9 @@ public class LSystemsGenerator : MonoBehaviour {
                 default:
                     throw new InvalidOperationException("Invalid L-tree operation");
             }
+            growing_cd = 0.5f;
+            growing_index++;
         }
-
     }
 
     private void ResetRandomValues() {
