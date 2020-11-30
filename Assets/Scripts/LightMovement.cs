@@ -6,7 +6,6 @@ public class LightMovement : MonoBehaviour
 {
     public GameObject tree;
     Vector3 target_position;
-
     // Start is called before the first frame update
     void Start()
     {

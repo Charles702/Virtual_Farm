@@ -233,6 +233,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
+  iosCopyPluginsCodeInsteadOfSymlink: 0
   appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
@@ -581,12 +582,25 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: ENVIRO_LW;ENVIRO_HD
+    4: ENVIRO_LW;ENVIRO_HD
+    7: ENVIRO_LW;ENVIRO_HD
+    13: ENVIRO_LW;ENVIRO_HD
+    14: ENVIRO_LW;ENVIRO_HD
+    19: ENVIRO_LW;ENVIRO_HD
+    21: ENVIRO_LW;ENVIRO_HD
+    25: ENVIRO_LW;ENVIRO_HD
+    27: ENVIRO_LW;ENVIRO_HD
+    28: ENVIRO_LW;ENVIRO_HD
+    29: ENVIRO_LW;ENVIRO_HD
+    30: ENVIRO_LW;ENVIRO_HD
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
+  suppressCommonWarnings: 1
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
   additionalIl2CppArgs: 

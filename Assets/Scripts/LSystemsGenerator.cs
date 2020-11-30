@@ -21,7 +21,7 @@ public class LSystemsGenerator : MonoBehaviour {
     public float length = 2f;
     public float variance = 10f;
     public int rule_number = 0;
-    public float growing_cd = 0.5f;
+    public float growing_cd = 0.2f;
     public bool hasTreeChanged = false;
     public GameObject Tree;
     public GameObject Sun;
@@ -123,7 +123,7 @@ public class LSystemsGenerator : MonoBehaviour {
     private void Generate() {
         //Destroy(Tree);
 
-        //Tree = Instantiate(treeParent);
+        Tree = Instantiate(treeParent);
 
         currentString = axiom;
 
@@ -208,7 +208,7 @@ public class LSystemsGenerator : MonoBehaviour {
                 default:
                     throw new InvalidOperationException("Invalid L-tree operation");
             }
-            growing_cd = 0.5f;
+            growing_cd = 0.01f;
             growing_index++;
         }
     }
