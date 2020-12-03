@@ -36,31 +36,24 @@ public class LSystemsGenerator : MonoBehaviour {
 
     private Dictionary<char, string> rules;
     private Stack<TransformInfo> transformStack;
-    private int titleLastFrame;
-    private int iterationsLastFrame;
-    private float angleLastFrame;
-    private float widthLastFrame;
-    private float lengthLastFrame;
     private string currentString = string.Empty;
     private Vector3 initialPosition = Vector3.zero;
     private float[] randomRotationValues = new float[100];
     private int growing_index = 0;
 
     void Start() {
-        titleLastFrame = title;
-        iterationsLastFrame = iterations;
-        angleLastFrame = angle;
-        widthLastFrame = width;
-        lengthLastFrame = length;
 
         rulesBook[0] = new Dictionary<char, string>
         {
+            //{ 'X', "[F-]" },
             { 'X', "[F-[X+X]+F[+FX]-X]" },
+            //{ 'X', "[F-F][" },
             { 'F', "FF" }
         };
         rulesBook[1] = new Dictionary<char, string>
         {
-            { 'X', "[-FX][+FX][FX]" },
+            //{ 'X', "[-FX][+FX][FX]" },
+            { 'X', "[-FX][&FX][+FX][^FX][FX]" },
             { 'F', "FF" }
         };
         rulesBook[2] = new Dictionary<char, string>
@@ -158,10 +151,23 @@ public class LSystemsGenerator : MonoBehaviour {
                                        Instantiate(leaf) : Instantiate(branch);
                     // Initialize leaf or branch
                     fLine.transform.SetParent(Tree.transform);
-                    fLine.GetComponent<LineRenderer>().SetPosition(0, initialPosition);
-                    fLine.GetComponent<LineRenderer>().SetPosition(1, transform.position);
-                    fLine.GetComponent<LineRenderer>().startWidth = width;
-                    fLine.GetComponent<LineRenderer>().endWidth = width;
+                    Vector3 centerPos = (transform.position + initialPosition) / 2;
+                    fLine.transform.position = centerPos;
+                    Vector3 cylinder_up = fLine.transform.Find("Top").transform.position - fLine.transform.Find("Bot").transform.position;
+                    float fLength = cylinder_up.magnitude;
+                    print("fLength: " + fLength);
+                    print("length: " + length);
+                    float r = length / fLength;
+                    fLine.transform.localScale = new Vector3(0.5f, 1.2f, 0.5f) * r;
+                    Vector3 to = transform.position - centerPos;
+
+                    fLine.transform.rotation = transform.rotation;
+                    //RotateAround(fLine.transform.Find("Bot").transform.position, Vector3.right, 30f);
+
+                    //fLine.GetComponent<LineRenderer>().SetPosition(0, initialPosition);
+                    //fLine.GetComponent<LineRenderer>().SetPosition(1, transform.position);
+                    //fLine.GetComponent<LineRenderer>().startWidth = width;
+                    //fLine.GetComponent<LineRenderer>().endWidth = width;
                     break;
 
                 case 'X': // Do nothing for X, X is for string iterate update
@@ -192,6 +198,8 @@ public class LSystemsGenerator : MonoBehaviour {
                     break;
 
                 case '[': // Push tree state
+                    print("[ position: " + transform.position + " rotation: " + transform.rotation);
+
                     transformStack.Push(new TransformInfo()
                     {
                         position = transform.position,
@@ -217,13 +225,6 @@ public class LSystemsGenerator : MonoBehaviour {
         for (int i = 0; i < randomRotationValues.Length; i++) {
             randomRotationValues[i] = UnityEngine.Random.Range(-1f, 1f);
         }
-    }
-
-    private void ResetFlags() {
-        iterationsLastFrame = iterations;
-        angleLastFrame = angle;
-        widthLastFrame = width;
-        lengthLastFrame = length;
     }
 
     private void ResetTreeValues() {
