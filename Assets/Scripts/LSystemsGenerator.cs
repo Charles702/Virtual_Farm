@@ -26,8 +26,9 @@ public class LSystemsGenerator : MonoBehaviour {
     //public float LeafLength = 0.3f;
     //public float LeafWidth = 0.1f;
 
-    public float maxScaleValue = 0.1f;
-    public float minScaleValue = 0.05f;
+    public float maxBranchScaleValue = 0.1f;
+    public float minBranchScaleValue = 0.05f;
+    public float trunkScalueValue = 1f;
 
     public float jointSpace = 0.8f;
 
@@ -40,7 +41,7 @@ public class LSystemsGenerator : MonoBehaviour {
 
     [SerializeField] private GameObject treeParent;
     [SerializeField] private GameObject branch;
-    [SerializeField] private GameObject leaf;
+    [SerializeField] private GameObject trunk;
     private Dictionary<char, string>[] rulesBook = new Dictionary<char, string>[50];
 
 
@@ -146,8 +147,21 @@ public class LSystemsGenerator : MonoBehaviour {
             sb = new StringBuilder();
         }
 
-        scaleInterval = (maxScaleValue - minScaleValue) / Regex.Matches(currentString, "F").Count;
-        scaleValue = maxScaleValue - scaleInterval;
+        scaleInterval = (maxBranchScaleValue - minBranchScaleValue) / Regex.Matches(currentString, "F").Count;
+        scaleValue = maxBranchScaleValue - scaleInterval;
+
+        if (trunk) {
+            initialPosition = transform.position;
+            GameObject truckInstance = Instantiate(trunk);
+            truckInstance.transform.localScale = new Vector3(trunkScalueValue, trunkScalueValue, trunkScalueValue);
+            Bounds bounds = truckInstance.GetComponentInChildren<MeshFilter>().mesh.bounds;
+            transform.Translate(Vector3.up * bounds.size.y * trunkScalueValue * 2 / 3);
+
+            truckInstance.transform.SetParent(Tree.transform);
+            truckInstance.transform.position = initialPosition;
+            truckInstance.transform.LookAt(transform.position);
+        }
+
         Debug.Log(currentString);
     }
 
