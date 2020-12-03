@@ -20,12 +20,6 @@ public class LSystemsGenerator : MonoBehaviour {
     public int iterations = 4;
     public float angle = 30f;
 
-    //public float BranchLength = 0.5f;
-    //public float BranchWidth = 0.1f;
-
-    //public float LeafLength = 0.3f;
-    //public float LeafWidth = 0.1f;
-
     public float maxBranchScaleValue = 0.1f;
     public float minBranchScaleValue = 0.05f;
     public float trunkScalueValue = 1f;
@@ -182,38 +176,15 @@ public class LSystemsGenerator : MonoBehaviour {
                     fLine.transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
                     Bounds bounds = fLine.GetComponentInChildren<MeshFilter>().mesh.bounds;
                     transform.Translate(Vector3.up * bounds.size.y * scaleValue * jointSpace);
-                    // GameObject fLine = currentString[(growing_index + 1) % currentString.Length] == 'X' ||
-                    //                   currentString[(growing_index + 3) % currentString.Length] == 'F' &&
-                    //                   currentString[(growing_index + 4) % currentString.Length] == 'X' ?
-                    //                   Instantiate(leaf) : Instantiate(branch);
+
                     // Initialize leaf or branch
                     fLine.transform.SetParent(Tree.transform);
                     // Vector3 centerPos = (transform.position + initialPosition) / 2;
                     fLine.transform.position = initialPosition;
                     fLine.transform.LookAt(transform.position);
                     scaleValue -= scaleInterval;
-                    // fLine.transform.rotation = transform.rotation;
 
-                    // Vector3 cylinder_up = fLine.transform.Find("Top").transform.position - fLine.transform.Find("Bot").transform.position;
-                    // float fLength = cylinder_up.magnitude;
-                    // print("fLength: " + fLength);
-                    // print("length: " + length);
-                    // float r = BranchLength / fLength ;
-                    //fLine.transform.localScale = new Vector3(BranchWidth, BranchLength, BranchWidth) * r;
-                    // Vector3 to = transform.position - centerPos;
-
-                    // print(fLine.transform.rotation);
-                    // print(transform.rotation);
-                    // fLine.transform.rotation = transform.rotation;
-
-                    //fLine.GetComponent<LineRenderer>().SetPosition(0, initialPosition);
-                    //fLine.GetComponent<LineRenderer>().SetPosition(1, transform.position);
-                    //fLine.GetComponent<LineRenderer>().startWidth = width;
-                    //fLine.GetComponent<LineRenderer>().endWidth = width;
                     break;
-                //case 'L':
-                //    initialPosition = transform.position;
-                //    transform.Translate(Vector3.up * LeafWidth);
 
                 case 'X': // Do nothing for X, X is for string iterate update
                     break;
@@ -271,31 +242,4 @@ public class LSystemsGenerator : MonoBehaviour {
             randomRotationValues[i] = UnityEngine.Random.Range(-1f, 1f);
         }
     }
-
-    private void _DrawLeaf() {
-        // initialPosition = transform.position;
-        // transform.Translate(Vector3.up * LeafLength * BranchLength);
-        // // Add leaf or branch
-        // GameObject fLine = Instantiate(leaf);
-        // fLine.transform.SetParent(Tree.transform);
-        // // Vector3 centerPos = (transform.position + initialPosition) / 2;
-        // fLine.transform.position = initialPosition;
-        // fLine.transform.LookAt(transform.position);
-        // fLine.transform.localScale = new Vector3(LeafWidth, LeafWidth, LeafLength);
-
-        // int numLeaf = RanDom.Range(0, 9);
-        // for (int i = 0; i < numLeaf; i++) {
-        //     leafInstance
-
-
-        // }
-    }
-
-    //private void ResetTreeValues() {
-    //    iterations = 4;
-    //    angle = 30f;
-    //    width = 1f;
-    //    length = 2f;
-    //    variance = 10f;
-    //}
 }
