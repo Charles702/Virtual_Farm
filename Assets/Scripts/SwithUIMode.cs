@@ -18,6 +18,13 @@ public class SwithUIMode : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.U)) 
         {
             UICanvas.enabled = !UICanvas.enabled;
+
         }
+
+        if (UICanvas.enabled)
+            Cursor.lockState = CursorLockMode.None;
+        else 
+            Cursor.lockState = CursorLockMode.Locked;              
+
     }
 }

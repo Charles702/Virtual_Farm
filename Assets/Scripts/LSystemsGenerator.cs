@@ -115,13 +115,12 @@ public class LSystemsGenerator : MonoBehaviour {
 
         Generate();
         Grow();
-
-        Invoke("getEnviroVariables", 1f);
     }
 
     void Update()
     {
-        getEnviroVariables();
+        if(EnviroSkyMgr.instance.IsStarted())
+            getEnviroVariables();
         if (growing_cd >= 0)
         {
             growing_cd -= Time.deltaTime;
@@ -256,9 +255,9 @@ public class LSystemsGenerator : MonoBehaviour {
         //Sprint or summer, sunny, day time hours-> grow,  grow faster in summer
         string curSeason = EnviroSkyMgr.instance.Seasons.currentSeasons.ToString();
         int dayhours = EnviroSkyMgr.instance.Time.Hours;
-
-        print("%%%%%%%%%%%%%%%  %%%%%%%%%   " + EnviroSkyMgr.instance.GetCurrentWeatherPreset().name);
-        string curWeather = EnviroSkyMgr.instance.GetCurrentWeatherPreset().name;   
+        string curWeather = "Spring";
+        if (EnviroSkyMgr.instance.GetCurrentWeatherPreset() != null)
+            curWeather = EnviroSkyMgr.instance.Weather.currentActiveWeatherPreset.name;   
 
         if((curSeason == "Spring" || curSeason =="Summer") && (dayhours> DAY_START && dayhours<DAY_END) 
                 && curWeather == "Clear Sky")
