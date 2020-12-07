@@ -40,6 +40,8 @@ public class LSystemsGenerator : MonoBehaviour {
 
 
     private const string axiom = "X";
+    private const int DAY_START = 6;
+    private const int DAY_END = 18;
 
     private Dictionary<char, string> rules;
     private Stack<TransformInfo> transformStack;
@@ -49,6 +51,8 @@ public class LSystemsGenerator : MonoBehaviour {
     private int growing_index = 0;
     private float scaleInterval = 0;
     private float scaleValue = 0;
+    private bool isTriggerGrow = false;
+    private float grow_rate = 1.2f;
 
     void Start() {
 
@@ -111,15 +115,18 @@ public class LSystemsGenerator : MonoBehaviour {
 
         Generate();
         Grow();
+
+        Invoke("getEnviroVariables", 1f);
     }
 
     void Update()
     {
+        getEnviroVariables();
         if (growing_cd >= 0)
         {
             growing_cd -= Time.deltaTime;
         }
-        //Grow();
+        Grow();
     }
 
 
@@ -161,12 +168,12 @@ public class LSystemsGenerator : MonoBehaviour {
 
     private void Grow()
     {
+        //for (int growing_index = 0; growing_index < currentString.Length; growing_index++)
 
-        //if (growing_index < currentString.Length && growing_cd < 0 && Sun.transform.position.y >= 0f)
-        for (int growing_index = 0; growing_index < currentString.Length; growing_index++)
+        if (growing_index < currentString.Length && growing_cd < 0 && isTriggerGrow)
         {
 
-            //print("growing");
+            print("growing");
             switch (currentString[growing_index])
             {
                 case 'F':
@@ -232,8 +239,8 @@ public class LSystemsGenerator : MonoBehaviour {
                 default:
                     throw new InvalidOperationException("Invalid L-tree operation");
             }
-            //growing_cd = 0.01f;
-            //growing_index++;
+            growing_cd = grow_rate;
+            growing_index++;
         }
     }
 
@@ -241,5 +248,28 @@ public class LSystemsGenerator : MonoBehaviour {
         for (int i = 0; i < randomRotationValues.Length; i++) {
             randomRotationValues[i] = UnityEngine.Random.Range(-1f, 1f);
         }
+    }
+
+    private void getEnviroVariables()
+    {
+        // get variables from environment.
+        //Sprint or summer, sunny, day time hours-> grow,  grow faster in summer
+        string curSeason = EnviroSkyMgr.instance.Seasons.currentSeasons.ToString();
+        int dayhours = EnviroSkyMgr.instance.Time.Hours;
+
+        print("%%%%%%%%%%%%%%%  %%%%%%%%%   " + EnviroSkyMgr.instance.GetCurrentWeatherPreset().name);
+        string curWeather = EnviroSkyMgr.instance.GetCurrentWeatherPreset().name;   
+
+        if((curSeason == "Spring" || curSeason =="Summer") && (dayhours> DAY_START && dayhours<DAY_END) 
+                && curWeather == "Clear Sky")
+        {
+            isTriggerGrow = true;
+            if (curSeason == "Spring")
+                grow_rate = 1.2f;
+            if (curSeason =="Summer")
+                grow_rate = 0.5f;                  
+        }
+        else
+            isTriggerGrow = false;
     }
 }
