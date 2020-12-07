@@ -13,6 +13,8 @@ public class DemoUI : MonoBehaviour {
     public UnityEngine.UI.Text weatherText;
     public UnityEngine.UI.Text temperatureText;
     public UnityEngine.UI.Dropdown weatherDropdown;
+    public UnityEngine.UI.Dropdown seasonDropdown;
+	public UnityEngine.UI.Text seasonText;
 	//UnityEngine.UI.Dropdown seasonDropdown;
 
  	//bool seasonmode = true;
@@ -35,10 +37,11 @@ public class DemoUI : MonoBehaviour {
 		};
 
        
-        /*EnviroSkyMgr.instance.OnSeasonChanged += (EnviroSeasons.Seasons season) =>
+        EnviroSkyMgr.instance.OnSeasonChanged += (EnviroSeasons.Seasons season) =>
 		{
-			UpdateSeasonSlider(season);
-		};*/
+			UpdateSeasonSlider();
+		};
+
 	}
 		
 	IEnumerator setupDrodown ()
@@ -54,6 +57,28 @@ public class DemoUI : MonoBehaviour {
 
 		yield return new WaitForSeconds (0.1f);
 		UpdateWeatherSlider ();
+	}
+
+	void initialSeason()
+	{
+		string[] seasons = new string[]{"Spring","Summer","Autum","Winter"};
+		for(int i=0; i< seasons.Length; i++)
+		{
+			UnityEngine.UI.Dropdown.OptionData s = new UnityEngine.UI.Dropdown.OptionData();
+			s.text = seasons[i];
+			seasonDropdown.options.Add(s);
+		} 
+
+		string curSeason = EnviroSkyMgr.instance.Seasons.currentSeasons.ToString();
+		if (curSeason == "Spring")
+			seasonDropdown.value = 0;
+		else if (curSeason == "Summer")
+			seasonDropdown.value = 1;
+		else if (curSeason == "Autum")
+			seasonDropdown.value = 2;
+		else 
+			seasonDropdown.value = 3;		
+		seasonText.text = seasonDropdown.options[seasonDropdown.value].text;
 	}
 
 	public void ChangeTimeSlider () 
@@ -163,6 +188,11 @@ public class DemoUI : MonoBehaviour {
 		}
 	}
 
+	void UpdateSeasonSlider()
+	{
+		seasonText.text = seasonDropdown.options[seasonDropdown.value].text;
+	}
+
 	void Update ()
 	{
 		if (!EnviroSkyMgr.instance.IsStarted())
@@ -170,6 +200,7 @@ public class DemoUI : MonoBehaviour {
 		else {
 			if(!started)
 				StartCoroutine(setupDrodown ());
+				initialSeason();		
 		}
 
 		timeText.text = EnviroSkyMgr.instance.GetTimeString ();
