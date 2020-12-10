@@ -199,8 +199,10 @@ public class DemoUI : MonoBehaviour {
 			return;
 		else {
 			if(!started)
+			{
 				StartCoroutine(setupDrodown ());
-				initialSeason();		
+				initialSeason();	
+			}	
 		}
 
 		timeText.text = EnviroSkyMgr.instance.GetTimeString ();
