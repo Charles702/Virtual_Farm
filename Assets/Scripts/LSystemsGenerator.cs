@@ -16,7 +16,6 @@ public class LSystemsGenerator : MonoBehaviour {
     public static int NUM_OF_TREES = 8;
     public static int MAX_ITERATIONS = 7;
 
-    public int title = 1;
     public int iterations = 4;
     public float angle = 30f;
 
@@ -36,6 +35,7 @@ public class LSystemsGenerator : MonoBehaviour {
     [SerializeField] private GameObject treeParent;
     [SerializeField] private GameObject branch;
     [SerializeField] private GameObject trunk;
+    [SerializeField] private GameObject fruit;
     private Dictionary<char, string>[] rulesBook = new Dictionary<char, string>[50];
 
 
@@ -60,48 +60,50 @@ public class LSystemsGenerator : MonoBehaviour {
         {
              //{ 'X', "[F+F]" },
             //{ 'X', "[F-[X+X]+F[+FX]-X]" },
-             { 'X', "[F&+**[-F-XF-X][+F]**[-XF[+X]][^+F-X]" },
+             //{ 'X', "[F&+**[-F-XF-X][+F]**[-XF[+X]][^+F-X]" },
+            { 'X', "[&FX[+FX--FG-F+^F//XGF^^X]-F+F+F-F/XF-X-FX]****[&FX[+FX--FG-F+^F//XGF^^X]-F+F+F-F/XF-X-FX]****[&FX[+FX--FG-F+^F//XGF^^X]-F+F+F-F/XF-X-FX]****" },
+
             { 'F', "FF" }
         };
         rulesBook[1] = new Dictionary<char, string>
         {
             //{ 'X', "[-FX][+FX][FX]" },
-            { 'X', "[-FX][&FX][+FX][^FX][FX]" },
+            { 'X', "[&XF-[F--G+/F+^F/F/XGF^X]-F+F++F/XF-X-FX]****[&XF-[F--G+/F+^F/F/XGF^X]-F+F++F/XF-X-FX]****[&XF-[F--G+/F+^F/F/XGF^X]-F+F++F/XF-X-FX]****" },
             { 'F', "FF" }
         };
         rulesBook[2] = new Dictionary<char, string>
         {
-            { 'X', "[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]****[&FF[+XF-F+FX]--F+F-FX]" },
+            { 'X', "[&FF[+XFG-F+FGX]--F+F-FX]****[&FFG[+XF-F+FGX]--F+F-FX]****[&FF[+XF-FG+FX]--F+FG-FGX]" },
             { 'F', "FF" }
         };
         rulesBook[3] = new Dictionary<char, string>
         {
-            { 'X', "[-FX]X[+FX][+F-FX]" },
+            { 'X', "[&X-[F-/F+^G/F^X]-FG+F++FXGF-X-FX]**[&XF-[F-[&XF-[F-/F+^FG/F^X]-FG+F++FXGF-X-FX]**/F+^FG/F^X]-FG+F++FXGF-X-FX]**[&XF-[F-/F+^FG/F^X]-FG+F++FXGF-X-FX]**" },
             { 'F', "FF" }
         };
         rulesBook[4] = new Dictionary<char, string>
         {
-            { 'X', "[FF[+XF-F+FX]--F+F-FX]" },
+            { 'X', "[&FX[+FX--FG-F+^F//XGF^^X]-F+F+F-F/XF-X-FX]**[&FX[+FX--FG-F+^F//XGF^^X]-F+F+F-F/XF-X-FX]**[&FX[+FX--FG-F+^F//XGF^^X]-F+F+F-F/XF-X-FX]" },
             { 'F', "FF" }
         };
         rulesBook[5] = new Dictionary<char, string>
         {
-            { 'X', "[FX[+F[-FX]FX][-F-FXFX]]" },
+            { 'X', "[FG/G+*FG]" },
             { 'F', "FF" }
         };
         rulesBook[6] = new Dictionary<char, string>
         {
-            { 'X', "[F[+FX][*+FX][/+FX]]" },
-            { 'F', "FF" }
+            { 'X', "FF^[F&F^F]" },
+            { 'F', "F" }
         };
         rulesBook[7] = new Dictionary<char, string>
         {
-            { 'X', "[*+FX]X[+FX][/+F-FX]" },
-            { 'F', "FF" }
+            { 'X', "FF[*+FX]X[+FX][/+F-FX]" },
+            { 'F', "F" }
         };
         rulesBook[8] = new Dictionary<char, string>
         {
-            { 'X', "[F[-X+F[+FX]][*-X+F[+FX]][/-X+F[+FX]-X]]" },
+            { 'X', "[FF^][FX&F^F]**[FX&F^F]" },
             { 'F', "FF" }
         };
 
@@ -122,8 +124,7 @@ public class LSystemsGenerator : MonoBehaviour {
     void Update()
     {
         getEnviroVariables();
-        if (growing_cd >= 0)
-        {
+        if (growing_cd >= 0) {
             growing_cd -= Time.deltaTime;
         }
         Grow();
@@ -168,28 +169,44 @@ public class LSystemsGenerator : MonoBehaviour {
 
     private void Grow()
     {
-        //for (int growing_index = 0; growing_index < currentString.Length; growing_index++)
+    //for (int growing_index = 0; growing_index < currentString.Length; growing_index++)
 
-        if (growing_index < currentString.Length && growing_cd < 0 && isTriggerGrow)
-        {
+        if (growing_index < currentString.Length && growing_cd < 0 && isTriggerGrow) {
 
             print("growing");
             switch (currentString[growing_index])
             {
                 case 'F':
                     initialPosition = transform.position;
-                    // Add leaf or branch
-                    GameObject fLine = Instantiate(branch);
-                    fLine.transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
-                    Bounds bounds = fLine.GetComponentInChildren<MeshFilter>().mesh.bounds;
+                    // Add branch
+                    GameObject _branch = Instantiate(branch);
+                    _branch.transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
+                    Bounds bounds = _branch.GetComponentInChildren<MeshFilter>().mesh.bounds;
                     transform.Translate(Vector3.up * bounds.size.y * scaleValue * jointSpace);
 
-                    // Initialize leaf or branch
-                    fLine.transform.SetParent(Tree.transform);
+                    _branch.transform.SetParent(Tree.transform);
                     // Vector3 centerPos = (transform.position + initialPosition) / 2;
-                    fLine.transform.position = initialPosition;
-                    fLine.transform.LookAt(transform.position);
+                    _branch.transform.position = initialPosition;
+                    _branch.transform.LookAt(transform.position);
                     scaleValue -= scaleInterval;
+
+                    break;
+
+                case 'G':
+                    initialPosition = transform.position;
+                    // Add fruit
+                    GameObject _fruit = Instantiate(fruit);
+
+                    bounds = _fruit.GetComponentInChildren<MeshFilter>().mesh.bounds;
+
+                    _fruit.transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
+
+                    _fruit.transform.SetParent(Tree.transform);
+
+                    _fruit.transform.position = initialPosition;
+                    _fruit.transform.Translate(Vector3.down * bounds.size.y * scaleValue * jointSpace);
+
+                    _fruit.transform.LookAt(transform.position);
 
                     break;
 
@@ -256,7 +273,7 @@ public class LSystemsGenerator : MonoBehaviour {
         //Sprint or summer, sunny, day time hours-> grow,  grow faster in summer
         string curSeason = EnviroSkyMgr.instance.Seasons.currentSeasons.ToString();
         int dayhours = EnviroSkyMgr.instance.Time.Hours;
-
+        print(EnviroSkyMgr.instance.GetCurrentWeatherPreset());
         print("%%%%%%%%%%%%%%%  %%%%%%%%%   " + EnviroSkyMgr.instance.GetCurrentWeatherPreset().name);
         string curWeather = EnviroSkyMgr.instance.GetCurrentWeatherPreset().name;   
 

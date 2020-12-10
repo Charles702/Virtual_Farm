@@ -39,6 +39,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 8240087214317665655}
     m_Modifications:
     - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +55,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.7071068
       objectReference: {fileID: 0}
@@ -60,14 +68,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 520662588803257298, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
@@ -86,6 +86,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptimizedTree
       objectReference: {fileID: 0}
+    - target: {fileID: 5329665429810623177, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5132bc1667e2d44d286908ea3ff4756d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3edbc2718293b445ebc655d6ee6314cb, type: 3}
 --- !u!4 &8173443893694233418 stripped
